@@ -1,0 +1,576 @@
+% \iffalse
+% $Id: mathgifg.dtx,v 1.14 2009-07-22 17:52:57 boris Exp $
+%
+% Copyright (c) 2009, Boris Veytsman
+%
+% All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions
+% are met: 
+%
+%    * Redistributions of source code must retain the above copyright
+%    notice, this list of conditions and the following disclaimer. 
+%    * Redistributions in binary form must reproduce the above
+%    copyright notice, this list of conditions and the following
+%    disclaimer in the documentation and/or other materials provided
+%    with the distribution. 
+%    * Neither the name of the original author nor the names of the
+%    contributors may be used to endorse or promote products derived
+%    from this software without specific prior written permission. 
+%
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+% CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+% INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+% MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+% DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+% BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+% EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+% TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+% DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+% ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+% OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+% OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+% POSSIBILITY OF SUCH DAMAGE.
+%
+% \fi 
+% \CheckSum{236}
+%
+%
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~} 
+%
+%\iffalse
+% Taken from xkeyval.dtx
+%\fi
+%\makeatletter
+%\def\DescribeOption#1{\leavevmode\@bsphack
+%              \marginpar{\raggedleft\PrintDescribeOption{#1}}%
+%              \SpecialOptionIndex{#1}\@esphack\ignorespaces}
+%\def\PrintDescribeOption#1{\strut\emph{option}\\\MacroFont #1\ }
+%\def\SpecialOptionIndex#1{\@bsphack
+%    \index{#1\actualchar{\protect\ttfamily#1}
+%           (option)\encapchar usage}%
+%    \index{options:\levelchar#1\actualchar{\protect\ttfamily#1}\encapchar
+%           usage}\@esphack}
+%\def\DescribeOptions#1{\leavevmode\@bsphack
+%  \marginpar{\raggedleft\strut\emph{options}%
+%  \@for\@tempa:=#1\do{%
+%    \\\strut\MacroFont\@tempa\SpecialOptionIndex\@tempa
+%  }}\@esphack\ignorespaces}
+%\makeatother
+%
+% 
+%
+% \MakeShortVerb{|}
+% \GetFileInfo{mathgifg.dtx}
+% \title{\LaTeX{} Support for Microsoft Georgia and ITC Franklin
+% Gothic In Text and Math}
+% \author{Boris Veytsman\thanks{%
+% \href{mailto:borisv@lk.net}{\texttt{borisv@lk.net}},
+% \href{mailto:boris@varphi.com}{\texttt{boris@varphi.com}}}} 
+% \date{\filedate, \fileversion}
+% \maketitle
+% \begin{abstract}
+%   This package provides \LaTeX{} support for Microsoft Georgia and
+%   ITC Franklin Gothic fonts, supplied, for example, with Microsoft
+%   Windows.  You need to convert the fonts to Type 1 format to use
+%   this package.  The package provides full support for text and
+%   math. 
+% \end{abstract}
+% \tableofcontents
+%
+%
+% \changes{v0.1}{2009/07/05}{First fully functional version} 
+% \changes{v0.2}{2009/07/06}{Changed bold default for Franklin Gothic} 
+% \changes{v0.3}{2009/07/06}{Math changes} 
+% \changes{v0.4}{2009/07/08}{Renamed encoding files} 
+%
+% \clearpage
+%
+%
+%\section{Introduction}
+%\label{sec:intro}
+%
+% Georgia is a baroque serif typeface designed by Matthew Carter in
+% 1993 and distributed by Microsoft Corporation.  Franklin Gothic is a
+% realist sans-serif typeface designed by Morris Fuller Benton in
+% 1902.  ITC Franklin Gothic, designed by David Berlow, are
+% distributed by Microsoft.  In this package we add \LaTeX{} support
+% files for both packages.  
+%
+% An alternative support for these fonts is provided by
+% |winfonts|~\cite{Winfonts} package.  However, there are several
+% reasons why we chose to re-implement the \LaTeX{} support:
+% \begin{enumerate}
+% \item |winfonts| package uses True Type fonts, and these fonts do not
+% work well with |dvips|.  The present package uses Postscript Type~1
+% versions of these fonts, which work nicely with both |pdftex| and
+% |dvips|.
+% \item |winfonts| package does not provide a number of fonts such as
+% Franklin Gothic Demi and Franklin Gothic Heavy variants.
+% \item The most important reason for the reimplementation is that we
+%   want to use text fonts with matching math fonts.
+% \end{enumerate}
+% 
+% Since |winfonts| may be installed on a number of computers, we took
+% care not to clash with it.  For this we were forced to slightly
+% deviate from the conventions of the |fontname|
+% scheme~\cite{fontname}.  Namely, according to this scheme the font
+% families should be called |jgi| and |ifg|.  To make unique names, we
+% choose our text fonts to be called |xjgi| and |xifg|, and our math
+% fonts to be called |zjgi| and |zifg| correspondingly.  
+%
+% This package is released under BSD license to make updating the
+% fonts metrics easier.
+%
+% The support of text fonts is limited to T1 and TS1 encoding.  No
+% VTeX support files are included.  
+%
+% The math support is very preliminary: there is a lot of work to do
+% on individual kerning and glyph placement!
+%
+%
+%\section{Installation}
+%\label{sec:install}
+%
+% First, you need to transform the fonts to the Type~1.  Actually,
+% |pdflatex| can use fonts in TTF format too, but to use the fonts
+% when making PostScript output we need Type~1.  Due to legal
+% constraints we do not include Type~1 fonts in the distribution; you
+% need either to buy them, or to create them yourself if you have
+% the fonts in the TrueType (TTF) formats.  In the first case you need
+% to rename them accordingly to Table~\ref{tab:PFB}.  In the second
+% case you need the TTF files, named similarly to the ones in
+% Table~\ref{tab:PFB}, and the conversion program, for example, 
+% |ttf2pt1| (\url{http://ttf2pt1.sourceforge.net/})\footnote{This
+% program is a part of many Linux distributions.}.  Convert the files
+% to Type~1 format with the commands like
+% \begin{verbatim}
+% ttf2pt1 -a -b georgia.ttf
+% ttf2pt1 -a -b georgiai.ttf
+% ...
+% \end{verbatim}
+% It is important to use the option |-a| in the call to this program,
+% since we need all glyphs in the resulting files!
+%
+% People often ask the question whether such translation is legal
+% provided that you own the fonts.  I am not in the position to give
+% a legal advice on this matter.  Perhaps you may want to purchase a
+% separate font license from Ascender Corporation,
+% \url{http://www.ascenderfonts.com}.
+%
+% Now install Georgia |PFB| files in
+% \path{$TEXMF/fonts/type1/microsoft/georgia}.  Install Franklin
+% Gothic files  in
+% \path{$TEXMF/fonts/type1/itc/franklingothic}.  Then  download
+% \url{http://ctan.tug.org/install/fonts/psfonts/mathgifg.tds.zip}.
+% Unzip the file in \path{$TEXMF}.  Add |+mathgifg.map| to the
+% configuration files of dvips, pdftex and your dvi previewer.  
+%
+%  
+% Run updmap and texhash programs to update the configuration files
+% and file names database.
+%
+% \begin{table}[tp]
+%   \centering
+%   \caption{PFB Files}
+%   \label{tab:PFB}
+%   \begin{tabular}{lll}
+%     \toprule
+%    File  &  Font & NFSS Code\\
+%    \midrule
+%    |georgia.pfb| & Georgia  &  |m| \\
+%    |georgiai.pfb| & Georgia  Italic &  |mi| \\
+%    |georgiab.pfb| & Georgia  Bold &  |b| \\
+%    |georgiaz.pfb| & Georgia  Bold Italic &  |bi| \\
+%    |frabk.pfb| & Franklin Gothic Book Regular & |k| \\
+%    |frabkit.pfb|  &  Franklin Gothic Book Italic  & |ki| \\
+%    |framd.pfb| & Franklin Gothic Medium Regular & |m|\\
+%    |framdit.pfb| & Franklin Gothic Medium Italic & |mi|\\
+%    |framdcn.pfb| & Franklin Gothic Medium Cond Regular & |mc| \\
+%    |fradm.pfb| & Franklin Gothic Demi Regular  & |d| \\
+%    |fradmit.pfb| & Franklin Gothic Demi Italic & |di| \\
+%    |fradmcn.pfb| & Franklin Gothic Demi Cond Regular & |dc| \\
+%    |frahv.pfb| & Franklin Gothic Heavy Regular & |h| \\
+%    |frahvit.pfb| & Franklin Gothic Heavy Italic & |hi| \\
+%    \bottomrule
+%   \end{tabular}
+%
+% \end{table}
+%
+%
+% To use the fonts in \LaTeX{} add |\usepackage{mathgifg}| to your
+% preamble. 
+%
+%
+% \StopEventually{
+%   \clearpage
+%   \bibliography{mathgifg}
+%   \bibliographystyle{unsrt}}
+%
+% \clearpage
+%\section{Implementation}
+%\label{sec:impl}
+%
+%\subsection{Identification}
+%\label{sec:ident}
+%
+% We start with the declaration who we are.  Most |.dtx| files put
+% driver code in a separate driver file |.drv|.  We roll this code into the
+% main file, and use the pseudo-guard |<gobble>| for it.
+%    \begin{macrocode}
+%<style>\NeedsTeXFormat{LaTeX2e}
+%<*gobble>
+\ProvidesFile{mathgifg.dtx}
+%</gobble>
+%<style>\ProvidesClass{mathgifg}
+%<drv>\ProvidesFile{drv.tex}
+%<map>\ProvidesFile{map.tex}
+%<*style|drv|map>
+[2009/07/08 v0.4 Using Georgia and Franklin Gothic in LaTeX]
+%</style|drv|map>
+%    \end{macrocode}
+% And the driver code:
+%    \begin{macrocode}
+%<*gobble>
+\documentclass{ltxdoc}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage[breaklinks,colorlinks,linkcolor=black,citecolor=black,
+            pagecolor=black,urlcolor=black,hyperindex=false]{hyperref}
+\PageIndex
+\CodelineIndex
+\RecordChanges
+\EnableCrossrefs
+\begin{document}
+  \DocInput{mathgifg.dtx}
+\end{document}
+%</gobble> 
+%    \end{macrocode}
+%
+%
+%\subsection{Fontinst Driver}
+%\label{sec:drv}
+%
+% This follows~\cite{fontinstallationguide}.
+% 
+% First, the preamble
+%    \begin{macrocode}
+%<*drv>
+\input fontinst.sty
+\substitutesilent{bx}{b}
+\substitutesilent{b}{d}
+\substitutesilent{l}{k}
+%    \end{macrocode}
+%
+%
+% 
+% Starting recording transforms:
+%    \begin{macrocode}
+\recordtransforms{rec.tex}
+%    \end{macrocode}
+%
+% Text fonts are in |8r| encoding:
+%    \begin{macrocode}
+\transformfont{xjgim8r}{\reencodefont{8r}{\fromafm{georgia}}}
+\transformfont{xjgimi8r}{\reencodefont{8r}{\fromafm{georgiai}}}
+\transformfont{xjgib8r}{\reencodefont{8r}{\fromafm{georgiab}}}
+\transformfont{xjgibi8r}{\reencodefont{8r}{\fromafm{georgiaz}}}
+\transformfont{xifgk8r}{\reencodefont{8r}{\fromafm{frabk}}}
+\transformfont{xifgki8r}{\reencodefont{8r}{\fromafm{frabkit}}}
+\transformfont{xifgm8r}{\reencodefont{8r}{\fromafm{framd}}}
+\transformfont{xifgmi8r}{\reencodefont{8r}{\fromafm{framdit}}}
+\transformfont{xifgm8rc}{\reencodefont{8r}{\fromafm{framdcn}}}
+\transformfont{xifgd8r}{\reencodefont{8r}{\fromafm{fradm}}}
+\transformfont{xifgdi8r}{\reencodefont{8r}{\fromafm{fradmit}}}
+\transformfont{xifgd8rc}{\reencodefont{8r}{\fromafm{fradmcn}}}
+\transformfont{xifgh8r}{\reencodefont{8r}{\fromafm{frahv}}}
+\transformfont{xifghi8r}{\reencodefont{8r}{\fromafm{frahvit}}}
+%    \end{macrocode}
+%
+% The interesting thing about Georgia and Franklin Gothic is the
+% rich set of Greek letters and symbols.  We can actually try to use
+% them in math.
+%
+%  Math fonts in |OT1| encoding.  |o| means ``original''.  To avoid
+%  conflict with |ot1.enc|, we rename these encodings.
+%    \begin{macrocode}
+\transformfont{zjgimo7t}{\reencodefont{gifgot1}{\fromafm{georgia}}}
+\transformfont{zifgko7t}{\reencodefont{gifgot1}{\fromafm{frabk}}}
+\transformfont{zifgdo7t}{\reencodefont{gifgot1}{\fromafm{fradm}}}
+%    \end{macrocode}
+%  
+% In |OML| encoding:
+%    \begin{macrocode}
+\transformfont{zjgimio7m}{\reencodefont{gifgoml}{\fromafm{georgiai}}}
+\transformfont{zifgko7m}{\reencodefont{gifgoml}{\fromafm{frabk}}}
+\transformfont{zifgdo7m}{\reencodefont{gifgoml}{\fromafm{fradm}}}
+%    \end{macrocode}
+% 
+% In |OMS| and |OMX| encoding
+%    \begin{macrocode}
+\transformfont{zjgimo7y}{\reencodefont{gifgoms}{\fromafm{georgia}}}
+\transformfont{zjgimo7v}{\reencodefont{gifgomx}{\fromafm{georgia}}}
+%    \end{macrocode}
+%
+% 
+% Now we install the fonts.  First T1.
+%    \begin{macrocode}
+\installfonts
+\installfamily{T1}{xjgi}{}
+\installfont{xjgim8t}{xjgim8r,newlatin}{t1}{T1}{xjgi}{m}{n}{}
+\installfont{xjgimi8t}{xjgimi8r,newlatin}{t1}{T1}{xjgi}{m}{it}{}
+\installfont{xjgib8t}{xjgib8r,newlatin}{t1}{T1}{xjgi}{b}{n}{}
+\installfont{xjgibi8t}{xjgibi8r,newlatin}{t1}{T1}{xjgi}{b}{it}{}
+\endinstallfonts
+\installfonts
+\installfamily{T1}{xifg}{}
+\installfont{xifgk8t}{xifgk8r,newlatin}{t1}{T1}{xifg}{k}{n}{}
+\installfont{xifgki8t}{xifgki8r,newlatin}{t1}{T1}{xifg}{k}{it}{}
+\installfont{xifgm8t}{xifgm8r,newlatin}{t1}{T1}{xifg}{m}{n}{}
+\installfont{xifgmi8t}{xifgmi8r,newlatin}{t1}{T1}{xifg}{m}{it}{}
+\installfont{xifgm8tc}{xifgm8rc,newlatin}{t1}{T1}{xifg}{mc}{n}{}
+\installfont{xifgd8t}{xifgd8r,newlatin}{t1}{T1}{xifg}{d}{n}{}
+\installfont{xifgdi8t}{xifgdi8r,newlatin}{t1}{T1}{xifg}{d}{it}{}
+\installfont{xifgd8tc}{xifgd8rc,newlatin}{t1}{T1}{xifg}{dc}{n}{}
+\installfont{xifgh8t}{xifgh8r,newlatin}{t1}{T1}{xifg}{h}{n}{}
+\installfont{xifghi8t}{xifghi8r,newlatin}{t1}{T1}{xifg}{h}{it}{}
+\endinstallfonts
+%    \end{macrocode}
+% 
+% And then TS1
+%    \begin{macrocode}
+\installfonts
+\installfamily{TS1}{xjgi}{}
+\installfont{xjgim8c}{xjgim8r,textcomp}{ts1}{TS1}{xjgi}{m}{n}{}
+\installfont{xjgimi8c}{xjgimi8r,textcomp}{ts1}{TS1}{xjgi}{m}{it}{}
+\installfont{xjgib8c}{xjgib8r,textcomp}{ts1}{TS1}{xjgi}{b}{n}{}
+\installfont{xjgibi8c}{xjgibi8r,textcomp}{ts1}{TS1}{xjgi}{b}{it}{}
+\endinstallfonts
+\installfonts
+\installfamily{TS1}{xifg}{}
+\installfont{xifgk8c}{xifgk8r,textcomp}{ts1}{TS1}{xifg}{k}{n}{}
+\installfont{xifgki8c}{xifgki8r,textcomp}{ts1}{TS1}{xifg}{k}{it}{}
+\installfont{xifgm8c}{xifgm8r,textcomp}{ts1}{TS1}{xifg}{m}{n}{}
+\installfont{xifgmi8c}{xifgmi8r,textcomp}{ts1}{TS1}{xifg}{m}{it}{}
+\installfont{xifgm8cc}{xifgm8rc,textcomp}{ts1}{TS1}{xifg}{mc}{n}{}
+\installfont{xifgd8c}{xifgd8r,textcomp}{ts1}{TS1}{xifg}{d}{n}{}
+\installfont{xifgdi8c}{xifgdi8r,textcomp}{ts1}{TS1}{xifg}{d}{it}{}
+\installfont{xifgd8cc}{xifgd8rc,textcomp}{ts1}{TS1}{xifg}{dc}{n}{}
+\installfont{xifgh8c}{xifgh8r,textcomp}{ts1}{TS1}{xifg}{h}{n}{}
+\installfont{xifghi8c}{xifghi8r,textcomp}{ts1}{TS1}{xifg}{h}{it}{}
+\endinstallfonts
+%    \end{macrocode}
+% 
+% Math fonts are different.  Here we basically follow the
+% recommendations of~\cite{Hoenig98:TeXUnbound}
+% and~\cite{Schmidt04:PSNFSS9.2}.
+%
+% First, we need text fonts for ``operators'' and ``letters'':
+%    \begin{macrocode}
+\installfonts
+\installfamily{OT1}{zjgi}{}
+\installfont{zjgim7t}{zjgimo7t,resetdigits,calcmetrics,xifgk8r,%
+  latin}{ot1}{OT1}{zjgi}{m}{n}{}
+\endinstallfonts
+%    \end{macrocode}
+
+% 
+% Now  ``letters''
+%    \begin{macrocode}
+\installfonts
+\installfamily{OML}{zjgi}{\skewchar\font=127}
+\installfont{zjgimi7m}{zjgimio7m,calcmetrics,xjgimi8r,%
+  kernoff,cmmi10,kernon,mathit}{oml}{OML}{zjgi}{m}{it}{}
+\endinstallfonts
+\installfonts
+\installfamily{OML}{zifg}{\skewchar\font=127}
+\installfont{zifgk7m}{zifgko7m,calcmetrics,zifgko7t,kernoff,cmmi10,kernon,%
+  mathit}{oml}{OML}{zifg}{k}{n}{}
+\installfont{zifgd7m}{zifgdo7m,calcmetrics,zifgdo7t,kernoff,cmmib10,kernon,%
+  mathit}{oml}{OML}{zifg}{d}{n}{}
+\endinstallfonts
+%    \end{macrocode}
+% 
+% Symbols.  We take everything we do not have from CM:
+%    \begin{macrocode}
+\installfonts
+\installfamily{OMS}{zjgi}{\skewchar\font=48}
+\installfont{zjgim7y}{zjgimo7y,zjgimo7t,calcmetrics,%
+  kernoff,cmsy10,kernon,mathsy}{oms}{OMS}{zjgi}{m}{n}{}
+\endinstallfonts
+%    \end{macrocode}
+% 
+% Same for big symbols
+% Symbols.  We take everything we do not have from CM:
+%    \begin{macrocode}
+\installfonts
+\installfamily{OMX}{zjgi}{}
+\installfont{zjgim7v}{zjgimo7v,zjgimo7t,calcmetrics,%
+  kernoff,cmex10,kernon}{omx}{OMX}{zjgi}{m}{n}{}
+\endinstallfonts
+%    \end{macrocode}
+%
+%
+% And the end:
+%    \begin{macrocode}
+\endrecordtransforms
+\bye
+%</drv>
+%    \end{macrocode}
+% 
+%
+%
+%\subsection{Fontmap Generation}
+%\label{sec:fontmap}
+%
+% This is a standard procedure~\cite{fontinstallationguide}
+%    \begin{macrocode}
+%<*map>
+\input finstmsc.sty
+\resetstr{PSfontsuffix}{.pfb}
+\adddriver{dvips}{mathgifg.map}
+\input rec.tex
+\donedrivers
+\bye
+%</map>
+%    \end{macrocode}
+%
+%
+%
+%\subsection{Style File}
+%\label{sec:style}
+%
+%
+% We again use the ideas from~\cite{Schmidt04:PSNFSS9.2}.
+%    \begin{macrocode}
+%<*style>
+\RequirePackage[T1]{fontenc}
+\RequirePackage{textcomp}
+\RequirePackage{keyval}
+\renewcommand{\sfdefault}{xifg}
+\renewcommand{\rmdefault}{xjgi}
+\DeclareSymbolFont{operators}{OT1}{zjgi}{m}{n}
+\DeclareSymbolFont{letters}{OML}{zjgi}{m}{it}
+\DeclareSymbolFont{symbols}{OMS}{zjgi}{m}{n}
+\DeclareSymbolFont{largesymbols}{OMX}{zjgi}{m}{n}
+\DeclareSymbolFont{sfletters}{OML}{zifg}{k}{n}
+\DeclareSymbolFont{bfletters}{OML}{zifg}{d}{n}
+\SetSymbolFont{letters}{bold}{OML}{zifg}{d}{n}
+\DeclareSymbolFontAlphabet{\mathsf}{sfletters}
+\DeclareSymbolFontAlphabet{\mathbf}{bfletters}
+\DeclareRobustCommand\hbar{{%
+ \dimen@.03em%
+ \dimen@ii0.001em%
+ \def\@tempa##1##2{{%
+   \lower##1\dimen@\rlap{\kern##1\dimen@ii\the##2 0\char22}}}%
+ \mathchoice\@tempa\@ne\textfont
+            \@tempa\@ne\textfont
+            \@tempa\defaultscriptratio\scriptfont
+            \@tempa\defaultscriptscriptratio\scriptscriptfont
+  h}}
+\let\s@vedhbar\hbar
+\AtBeginDocument{%
+  \@ifpackageloaded{amsfonts}{\let\hbar\s@vedhbar}{}}
+%</style>
+%    \end{macrocode}
+%
+%
+%\subsection{Metrics Files}
+%\label{sec:mtx}
+%
+% A simple |mtx| file resets digits.  We need it to substitute
+% Franklin Gothic numbers for Georgia numbers in math:
+%    \begin{macrocode}
+%<*resetdigits>
+\relax
+Reset all digits
+\metrics
+\unsetglyph{zero}
+\unsetglyph{one}
+\unsetglyph{two}
+\unsetglyph{three}
+\unsetglyph{four}
+\unsetglyph{five}
+\unsetglyph{six}
+\unsetglyph{seven}
+\unsetglyph{eight}
+\unsetglyph{nine}
+\endmetrics
+%</resetdigits>
+%    \end{macrocode}
+%
+%
+%
+% Another |mtx| file to calculate metrics for badly defined fonts.
+% See~\cite{Hoenig98:TeXUnbound}.
+%    \begin{macrocode}
+%<*calcmetrics>
+\relax
+Calculate missing metrics
+\metrics
+\resetint{xheight}{\height{x}}
+\endmetrics
+%</calcmetrics>
+%    \end{macrocode}
+% 
+%
+%
+%\subsection{Encoding Files}
+%\label{sec:encodings}
+% 
+% This is a copy of |ot1.etx| from~\cite{Schmidt04:PSNFSS9.2}.  We
+% rename it to avoid conflict with other |ot1.enc| in the result.
+%    \begin{macrocode}
+%<*gifgot1>
+\input ot1.etx
+%</gifgot1>
+%    \end{macrocode}
+% 
+% Same with |OML|:
+%    \begin{macrocode}
+%<*gifgoml>
+\input oml.etx
+%</gifgoml>
+%    \end{macrocode}
+% 
+%
+% And |OMS|:
+%    \begin{macrocode}
+%<*gifgoms>
+\input oms.etx
+%</gifgoms>
+%    \end{macrocode}
+%
+% And, finally, |OMX|
+%    \begin{macrocode}
+%<*gifgomx>
+\input omx.etx
+%</gifgomx>
+%    \end{macrocode}
+% 
+%
+%
+%\Finale
+%\clearpage
+%
+%\PrintChanges
+%\clearpage
+%\PrintIndex
+%
+\endinput
+Keywords: 2135525469

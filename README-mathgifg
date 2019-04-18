@@ -1,0 +1,10 @@
+		 LaTeX Support for Microsoft Georgia
+	       and ITC Franklin Gothic In Text and Math
+			     Version 0.4
+
+This package provides LaTeX support for Microsoft Georgia and ITC
+Franklin Gothic fonts, supplied, for example, with Microsoft Windows.
+The package provides  support for text and math.
+
+The math support is very preliminary: there is a lot of work to do on
+individual kerning and glyph placement!
